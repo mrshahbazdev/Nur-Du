@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Nur-Du &mdash; Vision Alignment Tool</title>
+        <title>North-Star &mdash; Vision Alignment Tool</title>
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -12,7 +12,7 @@
         <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
             {{-- Navbar --}}
             <nav class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
-                <span class="text-2xl font-bold text-indigo-600">Nur-Du</span>
+                <span class="text-2xl font-bold text-indigo-600">North-Star</span>
                 <div class="flex items-center space-x-4">
                     <x-language-switcher />
                     @auth
@@ -96,7 +96,7 @@
 
             {{-- Value Props --}}
             <div class="max-w-4xl mx-auto px-6 py-16 text-center">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">{{ __('Why Nur-Du?') }}</h2>
+                <h2 class="text-3xl font-bold text-gray-900 mb-8">{{ __('Why North-Star?') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                     <div class="flex items-start space-x-3">
                         <span class="text-green-500 mt-1">
@@ -147,7 +147,7 @@
 
             {{-- Footer --}}
             <footer class="max-w-7xl mx-auto px-6 py-8 text-center text-sm text-gray-400 border-t border-gray-200">
-                Nur-Du &mdash; Vision Alignment Tool &copy; {{ date('Y') }}
+                North-Star &mdash; Vision Alignment Tool &copy; {{ date('Y') }}
             </footer>
         </div>
     </body>

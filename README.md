@@ -1,4 +1,4 @@
-# Nur-Du — Vision Alignment Tool
+# North-Star — Vision Alignment Tool
 
 A lightweight Laravel tool that keeps your company's long-term vision alive by integrating it into everyday decisions, quarterly priorities, and monthly reflections.
 
@@ -109,7 +109,7 @@ php artisan serve
    ```
 6. The `public/build/` folder already contains pre-built CSS/JS assets — no need to run `npm` on the server.
 
-**Note:** The `.htaccess` file in `public/` handles URL rewriting for Apache. If your hosting uses Nginx, configure the equivalent rewrite rules.
+**Note:** A root `.htaccess` is included that redirects all requests to the `public/` folder automatically on Apache shared hosting.
 
 ## Development
 

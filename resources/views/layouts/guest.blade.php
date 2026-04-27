@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Nur-Du') }}</title>
+        <title>{{ config('app.name', 'North-Star') }}</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
                     <div class="absolute bottom-20 right-20 w-96 h-96 bg-purple-300 rounded-full blur-3xl"></div>
                 </div>
                 <div class="relative z-10 flex flex-col justify-center px-16 text-white">
-                    <a href="/" class="text-3xl font-bold mb-8">Nur-Du</a>
+                    <a href="/" class="text-3xl font-bold mb-8">North-Star</a>
                     <h2 class="text-4xl font-bold leading-tight mb-6">{{ __('Keep your vision alive.') }}</h2>
                     <p class="text-lg text-indigo-200 mb-12 leading-relaxed">
                         {{ __('A simple tool that ensures every decision, priority, and action stays aligned with where your company wants to go long-term.') }}
@@ -60,7 +60,7 @@
             <div class="w-full lg:w-1/2 flex flex-col">
                 {{-- Top bar with language switcher --}}
                 <div class="flex items-center justify-between px-8 pt-6">
-                    <a href="/" class="lg:hidden text-2xl font-bold text-indigo-600">Nur-Du</a>
+                    <a href="/" class="lg:hidden text-2xl font-bold text-indigo-600">North-Star</a>
                     <div class="ml-auto">
                         <x-language-switcher />
                     </div>
