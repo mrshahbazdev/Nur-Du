@@ -5,7 +5,7 @@
                 {{ __('Monthly Vision Checks') }}
             </h2>
             <a href="{{ route('checks.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                New Vision Check
+                {{ __('New Vision Check') }}
             </a>
         </div>
     </x-slot>
@@ -33,29 +33,29 @@
 
                                         <div class="mt-3 space-y-2">
                                             <div class="flex items-center space-x-2">
-                                                <span class="text-sm text-gray-600">Currently paying into vision?</span>
+                                                <span class="text-sm text-gray-600">{{ __('Paying into vision?') }}</span>
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
                                                     {{ $check->q1_answer === 'yes' ? 'bg-green-100 text-green-800' : '' }}
                                                     {{ $check->q1_answer === 'partially' ? 'bg-yellow-100 text-yellow-800' : '' }}
                                                     {{ $check->q1_answer === 'no' ? 'bg-red-100 text-red-800' : '' }}">
-                                                    {{ ucfirst($check->q1_answer) }}
+                                                    {{ $check->q1_answer === 'yes' ? __('Yes') : ($check->q1_answer === 'partially' ? __('Partially') : __('No')) }}
                                                 </span>
                                             </div>
 
                                             @if($check->actionItems->count())
                                                 <div class="flex items-center space-x-2 text-sm text-gray-500">
-                                                    <span>{{ $check->actionItems->where('completed', true)->count() }}/{{ $check->actionItems->count() }} action items completed</span>
+                                                    <span>{{ $check->actionItems->where('completed', true)->count() }}/{{ $check->actionItems->count() }} {{ __('action items completed') }}</span>
                                                 </div>
                                             @endif
                                         </div>
                                     </div>
 
                                     <div class="flex items-center space-x-3 ml-4">
-                                        <a href="{{ route('checks.show', $check) }}" class="text-sm text-indigo-600 hover:text-indigo-800">View &rarr;</a>
+                                        <a href="{{ route('checks.show', $check) }}" class="text-sm text-indigo-600 hover:text-indigo-800">{{ __('View') }} &rarr;</a>
                                         <form method="POST" action="{{ route('checks.destroy', $check) }}" onsubmit="return confirm('Delete this vision check?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">Delete</button>
+                                            <button type="submit" class="text-sm text-red-600 hover:text-red-800">{{ __('Delete') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -70,8 +70,8 @@
             @else
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-center text-gray-500">
-                        <p class="mb-2">No vision checks yet.</p>
-                        <p class="text-sm">Monthly vision checks keep your strategy alive. Spend 15 minutes each month reflecting on alignment.</p>
+                        <p class="mb-2">{{ __('No vision checks yet.') }}</p>
+                        <p class="text-sm">{{ __('Monthly vision checks keep your strategy alive. Spend 15 minutes each month reflecting on alignment.') }}</p>
                     </div>
                 </div>
             @endif

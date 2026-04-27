@@ -17,8 +17,8 @@
             {{-- Vision Statement --}}
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Vision Statement</h3>
-                    <p class="text-sm text-gray-500 mb-4">One clear vision statement (max 2 lines) that everyone can understand.</p>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">{{ __('Vision Statement') }}</h3>
+                    <p class="text-sm text-gray-500 mb-4">{{ __('One clear vision statement (max 2 lines) that everyone can understand.') }}</p>
 
                     <form method="POST" action="{{ route('vision.store') }}">
                         @csrf
@@ -31,7 +31,7 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <x-primary-button>{{ $vision ? 'Update Vision' : 'Save Vision' }}</x-primary-button>
+                        <x-primary-button>{{ $vision ? __('Update Vision') : __('Save Vision') }}</x-primary-button>
                     </form>
                 </div>
             </div>
@@ -40,8 +40,8 @@
             @if($vision)
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Guiding Principles</h3>
-                        <p class="text-sm text-gray-500 mb-4">3&ndash;5 principles that explain how you achieve your vision.</p>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ __('Guiding Principles') }}</h3>
+                        <p class="text-sm text-gray-500 mb-4">{{ __('3-5 principles that explain how you achieve your vision.') }}</p>
 
                         @if($vision->guidingPrinciples->count())
                             <div class="space-y-4 mb-6">
@@ -56,11 +56,11 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex space-x-2">
-                                                    <button @click="editing = true" class="text-sm text-indigo-600 hover:text-indigo-800">Edit</button>
+                                                    <button @click="editing = true" class="text-sm text-indigo-600 hover:text-indigo-800">{{ __('Edit') }}</button>
                                                     <form method="POST" action="{{ route('vision.principles.destroy', $principle) }}" onsubmit="return confirm('Remove this principle?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="text-sm text-red-600 hover:text-red-800">Delete</button>
+                                                        <button type="submit" class="text-sm text-red-600 hover:text-red-800">{{ __('Delete') }}</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -76,8 +76,8 @@
                                                         class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                                         placeholder="Optional description">{{ $principle->description }}</textarea>
                                                     <div class="flex space-x-2">
-                                                        <x-primary-button>Save</x-primary-button>
-                                                        <button type="button" @click="editing = false" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">Cancel</button>
+                                                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+                                                        <button type="button" @click="editing = false" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">{{ __('Cancel') }}</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -89,7 +89,7 @@
 
                         @if($vision->guidingPrinciples->count() < 5)
                             <div class="border-t border-gray-200 pt-4">
-                                <h4 class="text-sm font-medium text-gray-700 mb-3">Add Principle</h4>
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">{{ __('Add Principle') }}</h4>
                                 <form method="POST" action="{{ route('vision.principles.store') }}">
                                     @csrf
                                     <div class="space-y-3">
@@ -100,12 +100,12 @@
                                         @error('title')
                                             <p class="text-red-500 text-sm">{{ $message }}</p>
                                         @enderror
-                                        <x-primary-button>Add Principle</x-primary-button>
+                                        <x-primary-button>{{ __('Add Principle') }}</x-primary-button>
                                     </div>
                                 </form>
                             </div>
                         @else
-                            <p class="text-sm text-gray-500 mt-4">Maximum of 5 guiding principles reached.</p>
+                            <p class="text-sm text-gray-500 mt-4">{{ __('Maximum of 5 guiding principles reached.') }}</p>
                         @endif
                     </div>
                 </div>

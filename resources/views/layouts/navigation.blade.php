@@ -27,7 +27,8 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 sm:space-x-4">
+                <x-language-switcher />
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -82,6 +83,9 @@
             <x-responsive-nav-link :href="route('checks.index')" :active="request()->routeIs('checks.*')">
                 {{ __('Vision Checks') }}
             </x-responsive-nav-link>
+        </div>
+        <div class="px-4 py-2 border-t border-gray-200">
+            <x-language-switcher />
         </div>
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
