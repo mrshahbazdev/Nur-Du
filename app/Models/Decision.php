@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Decision extends Model
 {
-    protected $fillable = ['user_id', 'title', 'description', 'alignment', 'justification', 'decision_date'];
+    protected $fillable = ['user_id', 'team_id', 'title', 'description', 'alignment', 'justification', 'decision_date'];
 
     protected function casts(): array
     {
@@ -19,5 +19,10 @@ class Decision extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 }

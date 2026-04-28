@@ -5,6 +5,8 @@ use App\Http\Controllers\DecisionController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuarterlyFocusController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamInvitationController;
 use App\Http\Controllers\VisionCheckController;
 use App\Http\Controllers\VisionController;
 use Illuminate\Support\Facades\Route;
@@ -15,8 +17,26 @@ Route::get('/', function () {
 
 Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
+// Team invitation accept (works for both logged-in and guest users)
+Route::get('/invitations/{token}/accept', [TeamInvitationController::class, 'accept'])->name('invitations.accept');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+    // Teams
+    Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::get('/teams/create', [TeamController::class, 'create'])->name('teams.create');
+    Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+    Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
+    Route::put('/teams/{team}', [TeamController::class, 'update'])->name('teams.update');
+    Route::post('/teams/{team}/switch', [TeamController::class, 'switchTeam'])->name('teams.switch');
+    Route::patch('/teams/{team}/members/{member}/role', [TeamController::class, 'updateMemberRole'])->name('teams.members.role');
+    Route::delete('/teams/{team}/members/{member}', [TeamController::class, 'removeMember'])->name('teams.members.remove');
+    Route::delete('/teams/{team}', [TeamController::class, 'destroy'])->name('teams.destroy');
+
+    // Team Invitations
+    Route::post('/teams/{team}/invitations', [TeamInvitationController::class, 'store'])->name('teams.invitations.store');
+    Route::delete('/teams/{team}/invitations/{invitation}', [TeamInvitationController::class, 'cancel'])->name('teams.invitations.cancel');
 
     // Vision
     Route::get('/vision', [VisionController::class, 'index'])->name('vision.index');

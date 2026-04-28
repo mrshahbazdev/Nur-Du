@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VisionCheck extends Model
 {
-    protected $fillable = ['user_id', 'check_date', 'q1_answer', 'q2_answer', 'q3_answer', 'notes'];
+    protected $fillable = ['user_id', 'team_id', 'check_date', 'q1_answer', 'q2_answer', 'q3_answer', 'notes'];
 
     protected function casts(): array
     {
@@ -20,6 +20,11 @@ class VisionCheck extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function actionItems(): HasMany

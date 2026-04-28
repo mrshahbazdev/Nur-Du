@@ -10,11 +10,16 @@ class QuarterlyFocus extends Model
 {
     protected $table = 'quarterly_focuses';
 
-    protected $fillable = ['user_id', 'quarter', 'year', 'notes'];
+    protected $fillable = ['user_id', 'team_id', 'quarter', 'year', 'notes'];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function strategicPriorities(): HasMany

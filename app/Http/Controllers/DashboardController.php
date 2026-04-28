@@ -13,32 +13,33 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
         $user = $request->user();
+        $teamId = $user->current_team_id;
 
-        $vision = Vision::where('user_id', $user->id)
+        $vision = Vision::where('team_id', $teamId)
             ->with('guidingPrinciples')
             ->first();
 
         $currentQuarter = 'Q' . ceil(now()->month / 3);
         $currentYear = now()->year;
 
-        $quarterlyFocus = QuarterlyFocus::where('user_id', $user->id)
+        $quarterlyFocus = QuarterlyFocus::where('team_id', $teamId)
             ->where('quarter', $currentQuarter)
             ->where('year', $currentYear)
             ->with('strategicPriorities')
             ->first();
 
-        $recentDecisions = Decision::where('user_id', $user->id)
+        $recentDecisions = Decision::where('team_id', $teamId)
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
 
         $decisionStats = [
-            'green' => Decision::where('user_id', $user->id)->where('alignment', 'green')->count(),
-            'yellow' => Decision::where('user_id', $user->id)->where('alignment', 'yellow')->count(),
-            'red' => Decision::where('user_id', $user->id)->where('alignment', 'red')->count(),
+            'green' => Decision::where('team_id', $teamId)->where('alignment', 'green')->count(),
+            'yellow' => Decision::where('team_id', $teamId)->where('alignment', 'yellow')->count(),
+            'red' => Decision::where('team_id', $teamId)->where('alignment', 'red')->count(),
         ];
 
-        $latestCheck = VisionCheck::where('user_id', $user->id)
+        $latestCheck = VisionCheck::where('team_id', $teamId)
             ->with('actionItems')
             ->orderByDesc('check_date')
             ->first();

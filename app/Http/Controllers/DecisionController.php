@@ -9,14 +9,16 @@ class DecisionController extends Controller
 {
     public function index(Request $request)
     {
-        $decisions = Decision::where('user_id', $request->user()->id)
+        $teamId = $request->user()->current_team_id;
+
+        $decisions = Decision::where('team_id', $teamId)
             ->orderByDesc('created_at')
             ->paginate(15);
 
         $stats = [
-            'green' => Decision::where('user_id', $request->user()->id)->where('alignment', 'green')->count(),
-            'yellow' => Decision::where('user_id', $request->user()->id)->where('alignment', 'yellow')->count(),
-            'red' => Decision::where('user_id', $request->user()->id)->where('alignment', 'red')->count(),
+            'green' => Decision::where('team_id', $teamId)->where('alignment', 'green')->count(),
+            'yellow' => Decision::where('team_id', $teamId)->where('alignment', 'yellow')->count(),
+            'red' => Decision::where('team_id', $teamId)->where('alignment', 'red')->count(),
         ];
 
         return view('decisions.index', compact('decisions', 'stats'));
@@ -37,8 +39,11 @@ class DecisionController extends Controller
             'decision_date' => 'nullable|date',
         ]);
 
+        $user = $request->user();
+
         Decision::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
+            'team_id' => $user->current_team_id,
             ...$request->only(['title', 'description', 'alignment', 'justification', 'decision_date']),
         ]);
 
@@ -48,14 +53,14 @@ class DecisionController extends Controller
 
     public function edit(Request $request, Decision $decision)
     {
-        abort_if($decision->user_id !== $request->user()->id, 403);
+        abort_if($decision->team_id !== $request->user()->current_team_id, 403);
 
         return view('decisions.edit', compact('decision'));
     }
 
     public function update(Request $request, Decision $decision)
     {
-        abort_if($decision->user_id !== $request->user()->id, 403);
+        abort_if($decision->team_id !== $request->user()->current_team_id, 403);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -73,7 +78,7 @@ class DecisionController extends Controller
 
     public function destroy(Request $request, Decision $decision)
     {
-        abort_if($decision->user_id !== $request->user()->id, 403);
+        abort_if($decision->team_id !== $request->user()->current_team_id, 403);
 
         $decision->delete();
 

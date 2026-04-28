@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
+use App\Models\TeamInvitation;
+use App\Models\TeamMember;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -45,6 +48,28 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // Accept pending team invitation if exists
+        $token = session('team_invitation_token');
+        if ($token) {
+            $invitation = TeamInvitation::where('token', $token)
+                ->whereNull('accepted_at')
+                ->first();
+
+            if ($invitation) {
+                TeamMember::create([
+                    'team_id' => $invitation->team_id,
+                    'user_id' => $user->id,
+                    'role' => $invitation->role,
+                ]);
+                $invitation->update(['accepted_at' => now()]);
+                $user->update(['current_team_id' => $invitation->team_id]);
+                session()->forget('team_invitation_token');
+
+                return redirect(route('dashboard', absolute: false))
+                    ->with('success', 'Welcome! You have joined ' . $invitation->team->name);
+            }
+        }
 
         return redirect(route('dashboard', absolute: false));
     }

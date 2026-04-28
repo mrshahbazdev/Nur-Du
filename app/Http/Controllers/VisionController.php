@@ -10,7 +10,9 @@ class VisionController extends Controller
 {
     public function index(Request $request)
     {
-        $vision = Vision::where('user_id', $request->user()->id)
+        $teamId = $request->user()->current_team_id;
+
+        $vision = Vision::where('team_id', $teamId)
             ->with('guidingPrinciples')
             ->first();
 
@@ -26,8 +28,8 @@ class VisionController extends Controller
         $user = $request->user();
 
         $vision = Vision::updateOrCreate(
-            ['user_id' => $user->id],
-            ['statement' => $request->statement],
+            ['team_id' => $user->current_team_id],
+            ['user_id' => $user->id, 'statement' => $request->statement],
         );
 
         return redirect()->route('vision.index')
@@ -41,7 +43,7 @@ class VisionController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
-        $vision = Vision::where('user_id', $request->user()->id)->firstOrFail();
+        $vision = Vision::where('team_id', $request->user()->current_team_id)->firstOrFail();
 
         $maxOrder = $vision->guidingPrinciples()->max('sort_order') ?? 0;
 
@@ -62,7 +64,7 @@ class VisionController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
-        $vision = Vision::where('user_id', $request->user()->id)->firstOrFail();
+        $vision = Vision::where('team_id', $request->user()->current_team_id)->firstOrFail();
         abort_if($principle->vision_id !== $vision->id, 403);
 
         $principle->update([
@@ -76,7 +78,7 @@ class VisionController extends Controller
 
     public function destroyPrinciple(Request $request, GuidingPrinciple $principle)
     {
-        $vision = Vision::where('user_id', $request->user()->id)->firstOrFail();
+        $vision = Vision::where('team_id', $request->user()->current_team_id)->firstOrFail();
         abort_if($principle->vision_id !== $vision->id, 403);
 
         $principle->delete();

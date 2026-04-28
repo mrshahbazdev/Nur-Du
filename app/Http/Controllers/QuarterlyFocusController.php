@@ -10,7 +10,9 @@ class QuarterlyFocusController extends Controller
 {
     public function index(Request $request)
     {
-        $focuses = QuarterlyFocus::where('user_id', $request->user()->id)
+        $teamId = $request->user()->current_team_id;
+
+        $focuses = QuarterlyFocus::where('team_id', $teamId)
             ->with('strategicPriorities')
             ->orderByDesc('year')
             ->orderByDesc('quarter')
@@ -34,11 +36,11 @@ class QuarterlyFocusController extends Controller
 
         QuarterlyFocus::updateOrCreate(
             [
-                'user_id' => $user->id,
+                'team_id' => $user->current_team_id,
                 'quarter' => $request->quarter,
                 'year' => $request->year,
             ],
-            ['notes' => $request->notes],
+            ['user_id' => $user->id, 'notes' => $request->notes],
         );
 
         return redirect()->route('quarterly.index')
@@ -47,7 +49,7 @@ class QuarterlyFocusController extends Controller
 
     public function show(Request $request, QuarterlyFocus $quarterlyFocus)
     {
-        abort_if($quarterlyFocus->user_id !== $request->user()->id, 403);
+        abort_if($quarterlyFocus->team_id !== $request->user()->current_team_id, 403);
 
         $quarterlyFocus->load('strategicPriorities');
 
@@ -56,7 +58,7 @@ class QuarterlyFocusController extends Controller
 
     public function destroy(Request $request, QuarterlyFocus $quarterlyFocus)
     {
-        abort_if($quarterlyFocus->user_id !== $request->user()->id, 403);
+        abort_if($quarterlyFocus->team_id !== $request->user()->current_team_id, 403);
 
         $quarterlyFocus->delete();
 
@@ -66,7 +68,7 @@ class QuarterlyFocusController extends Controller
 
     public function storePriority(Request $request, QuarterlyFocus $quarterlyFocus)
     {
-        abort_if($quarterlyFocus->user_id !== $request->user()->id, 403);
+        abort_if($quarterlyFocus->team_id !== $request->user()->current_team_id, 403);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -87,7 +89,7 @@ class QuarterlyFocusController extends Controller
     public function updatePriority(Request $request, StrategicPriority $priority)
     {
         $focus = $priority->quarterlyFocus;
-        abort_if($focus->user_id !== $request->user()->id, 403);
+        abort_if($focus->team_id !== $request->user()->current_team_id, 403);
 
         $request->validate([
             'title' => 'required|string|max:255',
@@ -106,7 +108,7 @@ class QuarterlyFocusController extends Controller
     public function destroyPriority(Request $request, StrategicPriority $priority)
     {
         $focus = $priority->quarterlyFocus;
-        abort_if($focus->user_id !== $request->user()->id, 403);
+        abort_if($focus->team_id !== $request->user()->current_team_id, 403);
 
         $priority->delete();
 

@@ -10,7 +10,9 @@ class VisionCheckController extends Controller
 {
     public function index(Request $request)
     {
-        $checks = VisionCheck::where('user_id', $request->user()->id)
+        $teamId = $request->user()->current_team_id;
+
+        $checks = VisionCheck::where('team_id', $teamId)
             ->with('actionItems')
             ->orderByDesc('check_date')
             ->paginate(12);
@@ -35,8 +37,11 @@ class VisionCheckController extends Controller
             'action_items.*' => 'string|max:255',
         ]);
 
+        $user = $request->user();
+
         $check = VisionCheck::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
+            'team_id' => $user->current_team_id,
             ...$request->only(['check_date', 'q1_answer', 'q2_answer', 'q3_answer', 'notes']),
         ]);
 
@@ -52,7 +57,7 @@ class VisionCheckController extends Controller
 
     public function show(Request $request, VisionCheck $check)
     {
-        abort_if($check->user_id !== $request->user()->id, 403);
+        abort_if($check->team_id !== $request->user()->current_team_id, 403);
 
         $check->load('actionItems');
 
@@ -62,7 +67,7 @@ class VisionCheckController extends Controller
     public function toggleActionItem(Request $request, ActionItem $actionItem)
     {
         $check = $actionItem->visionCheck;
-        abort_if($check->user_id !== $request->user()->id, 403);
+        abort_if($check->team_id !== $request->user()->current_team_id, 403);
 
         $actionItem->update(['completed' => !$actionItem->completed]);
 
@@ -71,7 +76,7 @@ class VisionCheckController extends Controller
 
     public function destroy(Request $request, VisionCheck $check)
     {
-        abort_if($check->user_id !== $request->user()->id, 403);
+        abort_if($check->team_id !== $request->user()->current_team_id, 403);
 
         $check->delete();
 
