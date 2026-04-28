@@ -1,58 +1,189 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# North-Star — Vision Alignment Tool
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A lightweight Laravel tool that keeps your company's long-term vision alive by integrating it into everyday decisions, quarterly priorities, and monthly reflections.
 
-## About Laravel
+**Bilingual:** Full English & German support with language switcher.
+**Team Collaboration:** Invite members, assign roles, share data within teams.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Core Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Vision Statement Module
+- One clear vision statement (max 2 lines)
+- 3–5 guiding principles that explain how you achieve the vision
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Quarterly Focus
+- Define 1–3 strategic priorities per quarter
+- Assign an owner and measurable KPI to each priority
+- Track status: On Track / At Risk / Off Track
 
-## Learning Laravel
+### Decision Alignment Check
+- Traffic light system for every major decision:
+  - **Green** — Strengthens the vision
+  - **Yellow** — Neutral
+  - **Red** — Weakens the vision (must be actively justified)
+- Visual alignment bar showing overall decision health
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Monthly Vision Check
+- 3 fixed reflection questions:
+  1. Does what we are doing now clearly pay into our vision?
+  2. What decision or activity is currently most moving us away from the vision?
+  3. What is the one thing we need to change in the next period to get closer to the vision?
+- Notes and action items with completion tracking
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Team Collaboration
+- **Create & manage teams** — Multiple teams per user
+- **Invite members** — Email-based invitations with shareable token links
+- **Roles** — Admin, Manager, Member with different permission levels:
+  - **Admin** — Full access: manage team settings, invite/remove members, change roles
+  - **Manager** — Can create/edit all data within the team
+  - **Member** — Can view and contribute data
+- **Team switcher** — Quick dropdown in navbar to switch between teams
+- **Scoped data** — All vision, decisions, quarterly focus, and checks are isolated per team
+- **Auto personal team** — Every new user gets a personal team automatically
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Dashboard
+- Vision statement with guiding principles at a glance
+- Current quarter priorities with status
+- Decision alignment statistics with visual bar
+- Recent decisions and latest vision check summary
 
-## Agentic Development
+### Language Support (i18n)
+- Full English and German translations (180+ strings)
+- Language switcher (EN | DE) on all pages
+- Session-based locale persistence
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Tech Stack
+
+- **Backend:** PHP 8.3, Laravel 11
+- **Frontend:** Blade, Tailwind CSS, Alpine.js
+- **Auth:** Laravel Breeze
+- **Database:** SQLite (default), MySQL/PostgreSQL supported
+- **Build:** Vite
+
+## Requirements
+
+- PHP >= 8.2
+- Composer
+- Node.js >= 18 (for building assets, optional on shared hosting if using pre-built assets)
+
+## Installation
+
+### Local Development
 
 ```bash
-composer require laravel/boost --dev
+# Clone
+git clone https://github.com/mrshahbazdev/Nur-Du.git
+cd Nur-Du
 
-php artisan boost:install
+# Install dependencies
+composer install
+npm install
+
+# Environment
+cp .env.example .env
+php artisan key:generate
+
+# Database
+touch database/database.sqlite
+php artisan migrate
+
+# Build assets
+npm run build
+
+# Serve
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Shared Hosting Deployment
 
-## Contributing
+1. Upload the entire project to your hosting (e.g. via FTP/File Manager)
+2. Set the **document root** (public directory) to the `public/` folder
+   - If your hosting doesn't allow changing document root, the root `.htaccess` handles it automatically
+3. Copy `.env.example` to `.env` and configure:
+   ```
+   APP_NAME=North-Star
+   APP_ENV=production
+   APP_DEBUG=false
+   APP_URL=https://yourdomain.com
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_database_user
+   DB_PASSWORD=your_database_password
+   ```
+4. Generate app key:
+   ```bash
+   php artisan key:generate
+   ```
+5. Run migrations:
+   ```bash
+   php artisan migrate --force
+   ```
+6. The `public/build/` folder already contains pre-built CSS/JS assets — **no need to run `npm` on the server**.
 
-## Code of Conduct
+**Note:** Two `.htaccess` files are included:
+- **Root `.htaccess`** — Redirects all requests to the `public/` folder (for shared hosting where you can't change document root)
+- **`public/.htaccess`** — Laravel's standard URL rewriting to `index.php`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Updating on Shared Hosting
 
-## Security Vulnerabilities
+When pulling updates:
+```bash
+git pull origin devin/1777303406-vision-alignment-tool
+php artisan migrate --force
+```
+No need to rebuild assets — they are committed to `public/build/`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Development
+
+```bash
+npm run dev          # Vite dev server with HMR
+php artisan serve    # Laravel dev server
+php artisan test     # Run test suite (25 tests)
+```
+
+## Project Structure
+
+```
+app/
+├── Http/Controllers/     # Vision, Quarterly, Decision, Check, Team, Language controllers
+├── Http/Middleware/       # SetLocale (i18n), EnsureTeam (team context)
+├── Models/               # Vision, Decision, QuarterlyFocus, Team, TeamMember, User, etc.
+database/migrations/      # All database schema definitions
+lang/
+├── en.json               # English translations (180+ strings)
+├── de.json               # German translations (180+ strings)
+├── en/ & de/             # System message translations
+resources/views/
+├── auth/                 # Login, register, password reset pages
+├── checks/               # Vision check pages
+├── components/           # Language switcher, UI components
+├── decisions/            # Decision alignment pages
+├── layouts/              # App and guest layouts with team switcher
+├── quarterly/            # Quarterly focus pages
+├── teams/                # Team management: index, create, settings
+├── vision/               # Vision statement pages
+├── dashboard.blade.php   # Main dashboard
+├── welcome.blade.php     # Landing page
+```
+
+## Team Workflow
+
+1. **Register** → A personal team is auto-created for you
+2. **Create a team** → Go to Teams → Create Team
+3. **Invite members** → Team Settings → Enter email + select role → Send Invitation
+4. **Share invite link** → Members can accept via link (existing or new users)
+5. **Switch teams** → Use the team switcher dropdown in the navbar
+6. **All data is per-team** — Vision, decisions, quarterly focus, and checks belong to the active team
+
+## Philosophy
+
+> Make vision visible → check regularly → translate into decisions
+
+Regularity beats perfection. This tool is deliberately minimal — no OKR circus, no complex frameworks. Just a clear vision, lightweight priorities, and a simple decision filter that creates long-term orientation automatically.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Open source.
